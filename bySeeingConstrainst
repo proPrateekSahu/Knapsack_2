@@ -1,0 +1,46 @@
+#include<bits/stdc++.h>
+#define ll long long 
+using namespace std;
+ll wt[105],val[105];
+ll dp[105][100005];
+ll fun(int i,int v){
+    
+    
+    if(v==0)return  0;
+    if(i<0) return  1e15;
+    
+    
+    if(dp[i][v]!=-1) return dp[i][v];
+    
+    //if element at this index is not choosen
+    ll ans=fun(i-1,v);
+    
+    //if element at this index is choosen ,hence adding the value corresponding to this index and function call of index-1 element
+    if(v-val[i]>=0)//if this condition is negative then no reason to functioncall
+    
+    ans=min(ans,(fun(i-1,v-val[i])+wt[i]));//taking min of two cases that is taken or not taken
+    
+    return dp[i][v]=ans;
+   
+}
+
+
+
+
+
+int main()
+{
+    int n,w;
+    cin>>n>>w;
+    memset(dp,-1,sizeof(dp));
+    
+    for(int i=0;i<n;i++){
+        cin>>wt[i]>>val[i];
+    }
+    for(int i=1e5;i>=0;i--)
+        if(fun(n-1,i)<=w){
+        cout<<i;break;
+        }
+
+    return 0;
+}
